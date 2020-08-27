@@ -1,0 +1,14 @@
+{
+  "name": "stats-collector",
+  "version": "1.0.0",
+  "description": "StreamDota league stats collector",
+  "main": "index.js",
+  "author": "GriefCode",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "fs": "^0.0.1-security",
+    "node-fetch": "^2.6.0",
+    "yargs": "^15.4.1"
+  }
+}
