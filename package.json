@@ -13,6 +13,7 @@
   },
   "scripts": {
     "league": "node fetchLeague",
-    "matches": "node fetchMatches"
+    "matches": "node fetchMatches",
+    "stats": "node leagueStats"
   }
 }
