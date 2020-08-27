@@ -50,7 +50,7 @@ async function buybackStats() {
     console.log(chalk.cyan('Buyback stats'));
     console.log(chalk.blueBright('-------------'));
     console.log(chalk.blueBright('Total:'), chalk.yellow(buybacks));
-    console.log(chalk.blueBright('Costs:'), chalk.yellow(costs));
+    console.log(chalk.blueBright('Costs:'), chalk.yellow(-1*costs));
 }
 
 module.exports = buybackStats;

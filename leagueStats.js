@@ -34,15 +34,11 @@ const sorted = json.sort((a,b) => b.durationSeconds - a.durationSeconds);
 const maxGame = sorted[0];
 const maxGameLength = Math.floor(maxGame.durationSeconds / 3600) + ':' + Math.floor((maxGame.durationSeconds % 3600) / 60) + ':' + Math.floor(maxGame.durationSeconds % 60);
 const minGame = sorted[games.length - 1];
-const minGameLength = Math.floor(maxGame.durationSeconds / 60) + ':' + Math.floor(maxGame.durationSeconds % 60);
+const minGameLength = Math.floor(minGame.durationSeconds / 60) + ':' + Math.floor(minGame.durationSeconds % 60);
 console.log(chalk.blueBright('Longest game:'), chalk.yellow(maxGame.id), chalk.grey('(' + maxGameLength + ')'));
 console.log(chalk.blueBright('Shortest game:'), chalk.yellow(minGame.id), chalk.grey('(' + minGameLength + ')'));
 
-console.log('');
 roshStats();
-console.log('');
 wardStats();
-console.log('');
 courierStats();
-console.log('');
 buybackStats();
