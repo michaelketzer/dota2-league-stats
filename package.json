@@ -10,5 +10,9 @@
     "fs": "^0.0.1-security",
     "node-fetch": "^2.6.0",
     "yargs": "^15.4.1"
+  },
+  "scripts": {
+    "league": "node fetchLeague",
+    "matches": "node fetchMatches"
   }
 }
