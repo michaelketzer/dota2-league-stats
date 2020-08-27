@@ -27,7 +27,7 @@ const argv = yargs
 
 const downloadFile = (async (leagueId, page = 0) => {
     console.log(chalk.blueBright('Requesting league matches for', leagueId));
-    const res = await fetch(`https://api.stratz.com/api/v1/league/${leagueId}/matches?take=250&include=PLAYER,TEAM&skip` + page * 250);
+    const res = await fetch(`https://api.stratz.com/api/v1/league/${leagueId}/matches?take=250&include=PLAYER,TEAM&skip=` + page * 250);
     if(res.ok) {
         const fileStream = fs.createWriteStream(__dirname + '/leagues/' + leagueId + (page > 0 ? '_' + page : '') + '.json' );
         fileStream.on('error', function(err) {
