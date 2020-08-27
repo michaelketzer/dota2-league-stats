@@ -14,6 +14,7 @@
   "scripts": {
     "league": "node fetchLeague",
     "matches": "node fetchMatches",
-    "stats": "node leagueStats"
+    "stats": "node leagueStats",
+    "merge": "node mergeLeague"
   }
 }
