@@ -19,7 +19,7 @@ export function parseTopHeroes(game: Match): void {
     game.pickBans.forEach((pickBan) => {
         const hero = requireHero(pickBan.heroId);
         if(pickBan.isPick) {
-            const won = pickBan.isRadiant && game.didRadiantWin;
+            const won = pickBan.isRadiant === game.didRadiantWin;
             hero.picks += 1;
             hero.won += (won ? 1 : 0);
         } else {
