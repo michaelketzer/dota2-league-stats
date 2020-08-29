@@ -58,11 +58,11 @@ export function parseRoshStats(game: Match): void {
 
         if(tRad !== aRad || tDir != aDir) {
             const rSnatches = tDir - aDir;
-            if(radiantSnatches > 0) {
+            if(rSnatches > 0) {
                 radiantSnatches  = radiantSnatches + rSnatches;
             }
             const dSnatches = tRad - aRad;
-            if(direSnatches > 0) {
+            if(dSnatches > 0) {
                 direSnatches  = direSnatches + dSnatches;
             }
         }
