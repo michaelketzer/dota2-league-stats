@@ -157,6 +157,14 @@ export function printTopHeroes(): void {
     const topPicks = [...heroes].sort(([, {picks: a}], [, {picks: b}]) => b - a);
     const topBans = [...heroes].sort(([, {bans: a}], [, {bans: b}]) => b - a);
     const topWinRate = [...heroes].filter(([, {picks}]) => picks > 10).sort(([, {picks: aP, won: aW}], [, {picks: bP, won: bW}]) => ((bW * 100) / bP) - ((aW * 100 / aP)) || bP - aP);
+    const picked = new Set([...heroes].reduce((acc, [id, {picks}]) => {
+        if(picks > 0) {
+            acc.push(id);
+        }
+        return acc;
+    }, []));
+    const notPicked = Object.keys(heroIdMap).filter((id) => !picked.has('' + id))
+    
     console.log(chalk.blueBright(''));
     console.log(chalk.cyan('Top Hero Stats'));
     console.log(chalk.blueBright('-------------'));
@@ -164,4 +172,5 @@ export function printTopHeroes(): void {
     console.log(chalk.blueBright('Top Picks:'), chalk.yellow(topPicks.slice(0, 3).map(([id]) => heroIdMap[id]).join(', ')));
     console.log(chalk.blueBright('Top Bans:'), chalk.yellow(topBans.slice(0, 3).map(([id]) => heroIdMap[id]).join(', ')));
     console.log(chalk.blueBright('Top Win rate:'), chalk.yellow(topWinRate.slice(0, 3).map(([id, {won, picks}]) => `${heroIdMap[id]} ${chalk.grey(`(${won}/${picks} ${Math.round((won * 100) / picks)}%)`)}`).join(', ')));
+    console.log(chalk.blueBright('Never picked:', chalk.yellow(notPicked.map((id) => heroIdMap[id]).join(', '))));
 }
