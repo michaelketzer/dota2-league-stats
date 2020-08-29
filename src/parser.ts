@@ -5,9 +5,9 @@ import { Match } from './@types/Match';
 import { printRoshStats, parseRoshStats } from './parser/roshanStats';
 import { parseWardStats, printWardStats } from './parser/wardStats';
 import { parseCourierStats, printCourierStats } from './parser/courierStats';
-import { parseTowerStats, printTowerStats } from './parser/towerStats';
 import { printTopStats, parseTopStats } from './parser/topStats';
 import { parseTotalStats, printTotalStats } from './parser/totalStats';
+import { parseTopHeroes, printTopHeroes } from './parser/topHeroes';
 
 const argv = yargs
     .command('league', 'The league you want to collect the rosh state for', {
@@ -54,8 +54,8 @@ for(const id of games) {
             parseRoshStats(gamedata);
             parseWardStats(gamedata);
             parseCourierStats(gamedata);
+            parseTopHeroes(gamedata);
             //parseBuybackStats(gamedata);
-            parseTowerStats(gamedata);
         } catch(error) {
             console.log(chalk.red('Failed parsing match', id));
         }
@@ -67,5 +67,5 @@ printTotalStats();
 printRoshStats();
 printWardStats();
 printCourierStats();
+printTopHeroes();
 //printBuybackStats();
-printTowerStats();
