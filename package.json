@@ -17,6 +17,7 @@
     "league": "npx ts-node src/loader/fetchLeague",
     "matches": "npx ts-node src/loader/fetchMatches",
     "stats": "npx ts-node src/parser",
+    "statsTeam": "npx ts-node src/parseTeam",
     "merge": "npx ts-node src/helper/mergeLeague"
   },
   "devDependencies": {
