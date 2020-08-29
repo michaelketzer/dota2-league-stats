@@ -41,7 +41,7 @@ const minGameLength = Math.floor(minGame.durationSeconds / 60) + ':' + Math.floo
 const totalPlaytime = json.reduce((acc, {durationSeconds}) => acc + durationSeconds, 0);
 console.log(chalk.blueBright('Longest game:'), chalk.yellow(maxGame.id), chalk.grey('(' + maxGameLength + ')'));
 console.log(chalk.blueBright('Shortest game:'), chalk.yellow(minGame.id), chalk.grey('(' + minGameLength + ')'));
-console.log(chalk.blueBright('Total play time:'), chalk.yellow(totalPlaytime + ' s'));
+console.log(chalk.blueBright('Total play time:'), chalk.yellow(totalPlaytime + ' seconds'));
 
 console.log('');
 
