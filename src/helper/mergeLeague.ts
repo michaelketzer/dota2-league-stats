@@ -1,6 +1,6 @@
-const fs = require('fs');
-const yargs = require('yargs');
-const chalk = require('chalk');
+import * as fs from 'fs';
+import * as yargs from 'yargs';
+import { LeagueMatch } from '../@types/LeagueMatches';
 
 const argv = yargs
     .command('league', 'The league you want to collect the rosh state for', {
@@ -26,15 +26,15 @@ const argv = yargs
 
 const pages = Array.from(Array(argv.pages).keys());
 
-const data = fs.readFileSync('./leagues/' + argv.league + '.json');
-let total = JSON.parse(data);
+const data = fs.readFileSync(__dirname + '/../../leagues/' + argv.league + '.json');
+let total: LeagueMatch[] = JSON.parse(data as unknown as string);
 
 for(const id of pages) {
-    const data = fs.readFileSync('./leagues/' + argv.league + '_' + (id+1) + '.json');
-    const pageData = JSON.parse(data);
+    const data = fs.readFileSync(__dirname + '/../../leagues/' + argv.league + '_' + (id+1) + '.json');
+    const pageData: LeagueMatch[] = JSON.parse(data as unknown as string);
     total = total.concat(pageData);
-    fs.unlinkSync('./leagues/' + argv.league + '_' + (id+1) + '.json');
+    fs.unlinkSync(__dirname + '/../../leagues/' + argv.league + '_' + (id+1) + '.json');
 }
 
 
-fs.writeFileSync('./leagues/' + argv.league + '.json', JSON.stringify(total));
+fs.writeFileSync(__dirname + '/../../leagues/' + argv.league + '.json', JSON.stringify(total));
