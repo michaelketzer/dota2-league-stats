@@ -1,7 +1,7 @@
-const fs = require('fs');
-const fetch = require('node-fetch');
-const yargs = require('yargs');
-const chalk = require('chalk');
+import * as fs from 'fs';
+import  fetch from 'node-fetch';
+import * as yargs from 'yargs';
+import * as chalk from 'chalk';
 
 const argv = yargs
     .command('league', 'The league you want to fetch the matches for', {
@@ -29,7 +29,7 @@ const downloadFile = (async (leagueId, page = 0) => {
     console.log(chalk.blueBright('Requesting league matches for', leagueId));
     const res = await fetch(`https://api.stratz.com/api/v1/league/${leagueId}/matches?take=250&include=PLAYER,TEAM&skip=` + page * 250);
     if(res.ok) {
-        const fileStream = fs.createWriteStream(__dirname + '/leagues/' + leagueId + (page > 0 ? '_' + page : '') + '.json' );
+        const fileStream = fs.createWriteStream(__dirname + '/../../leagues/' + leagueId + (page > 0 ? '_' + page : '') + '.json' );
         fileStream.on('error', function(err) {
             console.log(chalk.red('Error creating write stream', err));
         });
@@ -46,8 +46,8 @@ const downloadFile = (async (leagueId, page = 0) => {
             });
         });
     } else {
-        console.log(chalk.red('Skipped league', leagueId, 'with response code', res.statusCode));
+        console.log(chalk.red('Skipped league', leagueId, 'with response code', res.status));
     }
 });
 
-downloadFile(argv.league, argv.page);
+downloadFile(argv.league, argv.page as number);

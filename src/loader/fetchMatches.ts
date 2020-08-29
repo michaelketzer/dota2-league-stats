@@ -1,7 +1,7 @@
-const fs = require('fs');
-const fetch = require('node-fetch');
-const yargs = require('yargs');
-const chalk = require('chalk');
+import * as fs from 'fs';
+import  fetch from 'node-fetch';
+import * as yargs from 'yargs';
+import * as chalk from 'chalk';
 
 const argv = yargs
     .command('league', 'The league you want to fetch the matches for', {
@@ -34,7 +34,7 @@ const argv = yargs
     .argv;
 
 const data = fs.readFileSync('./leagues/' + argv.league + '.json');
-const json = JSON.parse(data);
+const json = JSON.parse(data as unknown as string);
 const games = json.map(({id}) => id);
 
 
@@ -42,7 +42,7 @@ const downloadFile = (async (matchId) => {
     console.log(chalk.blueBright('Requesting match with id', matchId));
     const res = await fetch('https://api.stratz.com/api/v1/match/' + matchId);
     if(res.ok) {
-        const fileStream = fs.createWriteStream(__dirname + '/matches/' + matchId + '.json' );
+        const fileStream = fs.createWriteStream(__dirname + '/../../matches/' + matchId + '.json' );
         fileStream.on('error', function(err) {
             console.log(chalk.red('Error creating write stream', err));
         });
@@ -59,7 +59,7 @@ const downloadFile = (async (matchId) => {
             });
         });
     } else {
-        console.log(chalk.red('Skipped match', matchId, 'with response code', res.statusCode));
+        console.log(chalk.red('Skipped match', matchId, 'with response code', res.status));
     }
 });
 
@@ -67,14 +67,14 @@ async function load() {
     console.log(chalk.yellowBright('Init new match fetching'));
     let i = 0;
     for(const id of games) {
-        const alreadyDownloaded = fs.existsSync(__dirname + '/matches/' + id + '.json');
+        const alreadyDownloaded = fs.existsSync(__dirname + '/../../matches/' + id + '.json');
         if(argv.validate && alreadyDownloaded) {
-            const data = fs.readFileSync(__dirname + '/matches/' + id + '.json');
+            const data = fs.readFileSync(__dirname + '/../../matches/' + id + '.json');
             try {
-                JSON.parse(data);
+                JSON.parse(data as unknown as string);
             } catch(error) {
                 console.log(chalk.red('Match', id, 'is invalid, starting reload'));
-                fs.unlinkSync(__dirname + '/matches/' + id + '.json');
+                fs.unlinkSync(__dirname + '/../../matches/' + id + '.json');
                 await downloadFile(id);
                 i++;
             }

@@ -1,10 +1,11 @@
-const fs = require('fs');
-const yargs = require('yargs');
-const chalk = require('chalk');
-const roshStats = require('./roshanStats');
-const wardStats = require('./wardStats');
-const courierStats = require('./courierStats');
-const buybackStats = require('./buybackStats');
+import * as fs from 'fs';
+import * as yargs from 'yargs';
+import * as chalk from 'chalk';
+import { Match } from './@types/Match';
+import { printRoshStats, parseRoshStats } from './parser/roshanStats';
+import { parseWardStats, printWardStats } from './parser/wardStats';
+import { parseCourierStats, printCourierStats } from './parser/courierStats';
+import { parseBuybackStats, printBuybackStats } from './parser/buybackStats';
 
 const argv = yargs
     .command('league', 'The league you want to collect the rosh state for', {
@@ -20,8 +21,8 @@ const argv = yargs
     .alias('help', 'h')
     .argv;
 
-const data = fs.readFileSync('./leagues/' + argv.league + '.json');
-const json = JSON.parse(data);
+const data = fs.readFileSync(__dirname + '/../leagues/' + argv.league + '.json');
+const json = JSON.parse(data as unknown as string);
 const games = json.map(({id}) => id);
 
 console.log(chalk.red('Collecting league stats for ', argv.league));
@@ -38,7 +39,25 @@ const minGameLength = Math.floor(minGame.durationSeconds / 60) + ':' + Math.floo
 console.log(chalk.blueBright('Longest game:'), chalk.yellow(maxGame.id), chalk.grey('(' + maxGameLength + ')'));
 console.log(chalk.blueBright('Shortest game:'), chalk.yellow(minGame.id), chalk.grey('(' + minGameLength + ')'));
 
-roshStats();
-wardStats();
-courierStats();
-buybackStats();
+console.log('');
+
+for(const id of games) {
+    if(fs.existsSync(__dirname + '/../matches/' + id + '.json')) {
+        const data = fs.readFileSync(__dirname + '/../matches/' + id + '.json');
+
+        try {
+            const gamedata: Match = JSON.parse(data as unknown as string);
+            parseRoshStats(gamedata);
+            parseWardStats(gamedata);
+            parseCourierStats(gamedata);
+            //parseBuybackStats(gamedata);
+        } catch(error) {
+            console.log(chalk.red('Failed parsing match', id));
+        }
+    }
+}
+
+printRoshStats();
+printWardStats();
+printCourierStats();
+//printBuybackStats();
