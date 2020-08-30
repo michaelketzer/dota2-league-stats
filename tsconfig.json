@@ -1,0 +1,9 @@
+// tsconfig.json
+{
+    "ts-node": {
+      "transpileOnly": true
+    },
+    "compilerOptions": {
+        "downlevelIteration": true,
+    }
+  }
