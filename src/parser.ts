@@ -9,6 +9,10 @@ import { printTopStats, parseTopStats } from './parser/topStats';
 import { parseTotalStats, printTotalStats } from './parser/totalStats';
 import { parseTopHeroes, printTopHeroes } from './parser/topHeroes';
 import { LeagueMatch } from './@types/LeagueMatches';
+import { boolean } from 'yargs';
+
+const americasRegionIds = new Set([10, 14, 15, 1, 2]);
+const asiaRegionIds = new Set([17, 13, 5]);
 
 const argv = yargs
     .command('league', 'The league you want to collect the rosh state for', {
@@ -18,27 +22,44 @@ const argv = yargs
             type: 'number',
         }
     })
-    .command('region', 'Applies a region filter for the games to be looked up', {
+    .command('americas', 'Checks games only in region americas', {
         year: {
-            description: 'Applies a region filter for the games to be looked up',
-            alias: 'l',
-            type: 'number',
+            description: 'Checks games only in region americas',
+            type: 'boolean',
+        }
+    })
+    .command('asia', 'Checks games only in region americas', {
+        year: {
+            description: 'Checks games only in region americas',
+            type: 'boolean',
         }
     })
     .help()
     .demandOption(['league'], 'Please define a league id with -l or -league')
     .alias('league', 'l')
-    .alias('region', 'r')
     .alias('help', 'h')
     .argv;
 
+function filterMatchByRegions({regionId}: LeagueMatch): boolean {
+    if(argv.asia) {
+        return asiaRegionIds.has(regionId);
+    }
+    if(argv.americas) {
+        return americasRegionIds.has(regionId);
+    }
+
+    return true;
+}
+
 const data = fs.readFileSync(__dirname + '/../leagues/' + argv.league + '.json');
 const json: LeagueMatch[] = JSON.parse(data as unknown as string);
-const fullGames: LeagueMatch[] = json.filter(({regionId}) => !argv.region || +argv.region === regionId);
-const games = json.filter(({regionId}) => !argv.region || +argv.region === regionId ).map(({id}) => id);
+const fullGames: LeagueMatch[] = json.filter(filterMatchByRegions);
+const games = fullGames.map(({id}) => id);
+const allRegions = json.reduce((acc, match) => acc.add(match.regionId), new Set());
 
 console.log(chalk.red('Collecting league stats for ', argv.league));
 console.log(chalk.red('------------------------------------------'));
+console.log(chalk.blueBright('Regions played:'), chalk.yellow([...allRegions.values()].join(', ')));
 console.log(chalk.blueBright('Games:'), chalk.yellow(games.length));
 const radiantWins = fullGames.filter(({didRadiantWin}) => didRadiantWin).length;
 console.log(chalk.blueBright('Radiant wins:'), chalk.yellow(radiantWins), chalk.grey('(' + Math.round((radiantWins*100)/games.length) + '%)'));
