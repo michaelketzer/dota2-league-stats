@@ -34,20 +34,21 @@ const argv = yargs
 
 const data = fs.readFileSync(__dirname + '/../leagues/' + argv.league + '.json');
 const json: LeagueMatch[] = JSON.parse(data as unknown as string);
+const fullGames: LeagueMatch[] = json.filter(({regionId}) => !argv.region || +argv.region === regionId);
 const games = json.filter(({regionId}) => !argv.region || +argv.region === regionId ).map(({id}) => id);
 
 console.log(chalk.red('Collecting league stats for ', argv.league));
 console.log(chalk.red('------------------------------------------'));
 console.log(chalk.blueBright('Games:'), chalk.yellow(games.length));
-const radiantWins = json.filter(({didRadiantWin}) => didRadiantWin).length;
+const radiantWins = fullGames.filter(({didRadiantWin}) => didRadiantWin).length;
 console.log(chalk.blueBright('Radiant wins:'), chalk.yellow(radiantWins), chalk.grey('(' + Math.round((radiantWins*100)/games.length) + '%)'));
 console.log(chalk.blueBright('Dire wins:'), chalk.yellow(games.length - radiantWins), chalk.grey('(' + Math.round(((games.length - radiantWins)*100)/games.length) + '%)'));
-const sorted = json.sort((a,b) => b.durationSeconds - a.durationSeconds);
+const sorted = fullGames.sort((a,b) => b.durationSeconds - a.durationSeconds);
 const maxGame = sorted[0];
 const maxGameLength = Math.floor(maxGame.durationSeconds / 3600) + ':' + Math.floor((maxGame.durationSeconds % 3600) / 60) + ':' + Math.floor(maxGame.durationSeconds % 60);
 const minGame = sorted[games.length - 1];
 const minGameLength = Math.floor(minGame.durationSeconds / 60) + ':' + Math.floor(minGame.durationSeconds % 60);
-const totalPlaytime = json.reduce((acc, {durationSeconds}) => acc + durationSeconds, 0);
+const totalPlaytime = fullGames.reduce((acc, {durationSeconds}) => acc + durationSeconds, 0);
 console.log(chalk.blueBright('Longest game:'), chalk.yellow(maxGame.id), chalk.grey('(' + maxGameLength + ')'));
 console.log(chalk.blueBright('Shortest game:'), chalk.yellow(minGame.id), chalk.grey('(' + minGameLength + ')'));
 console.log(chalk.blueBright('Total play time:'), chalk.yellow(totalPlaytime + ' seconds'));
