@@ -32,6 +32,27 @@ const data = fs.readFileSync(__dirname + '/../leagues/' + argv.league + '.json')
 const games: LeagueMatch[] = JSON.parse(data as unknown as string);
 const teamRelevantMatches = games.filter(({radiantTeamId, direTeamId}) => radiantTeamId === teamId || direTeamId === teamId);
 
+let radiantGames = 0;
+let direGames = 0;
+let radiantWins = 0;
+let direWins = 0;
+
+teamRelevantMatches.forEach((match) => {
+    const wasRadiant = match.radiantTeamId === teamId;
+
+    if(wasRadiant) {
+        radiantGames += 1;
+        if(wasRadiant && match.didRadiantWin) {
+            radiantWins += 1;
+        }
+    } else {
+        direGames += 1;
+        if(!wasRadiant && !match.didRadiantWin) {
+            direWins += 1;
+        }
+    }
+})
+
 const heroIdMap = {
     '1': 'antimage',
     '2': 'axe',
@@ -162,10 +183,6 @@ interface HeroStats {
     phase3: number;
 }
 
-interface Props {
-    matches: LeagueMatch[];
-    player: number;
-}
 
 export function requireHeroStats(heroId: number, acc: {[x: string]: HeroStats}): HeroStats {
     if(!acc[heroId]) {
@@ -242,7 +259,21 @@ const banStats = teamRelevantMatches.reduce<{[x: string]: HeroStats}>((acc, matc
 }, {});
 
 console.log(chalk.red('Collecting team stats for league', argv.league, 'and team', argv.team));
-console.log(chalk.red('------------------------------------------'));
+console.log(chalk.red('------------------------------------------------------------'));
+console.log('');
+console.log(chalk.red('Total Team Stats'))
+console.log(chalk.red('----------------'))
+console.log(chalk.yellow('Total games:'), chalk.yellow(radiantGames + direGames))
+console.log(chalk.yellow('Radiant games:'), chalk.yellow(radiantGames), chalk.grey('(' + Math.round((radiantWins * 100) / radiantGames) + '%)'))
+console.log(chalk.yellow('Dire games:'), chalk.yellow(direGames), chalk.grey('(' + Math.round((direWins * 100) / direGames) + '%)'))
+
+console.log('')
+
+console.log(chalk.red('Pick stats'))
+console.log(chalk.red('----------'))
+
+console.log('')
+
 console.log(chalk.blueBright('Top total picks:'));
 topPicks.forEach((hero, idx) => console.log(chalk.yellow(idx + 1 + '.'), chalk.greenBright(heroIdMap[hero.id]), chalk.blueBright(hero.won + '/' + hero.games), chalk.grey(Math.floor((hero.won * 100) / hero.games) + '%')));
 
@@ -267,8 +298,13 @@ const topBansFirstPhase = Object.entries(banStats).sort(([, {phase1: a, games: g
 const topBansSecondPhase = Object.entries(banStats).sort(([, {phase2: a, games: gA}], [, {phase2: b, games: gB}]) => b - a || gB - gA).slice(0, 5).map(([id, data]) => ({id, ...data}));
 const topBansThirdPhase = Object.entries(banStats).sort(([, {phase3: a, games: gA}], [, {phase3: b, games: gB}]) => b - a || gB - gA).slice(0, 5).map(([id, data]) => ({id, ...data}));
 
-console.log('');
-console.log('');
+console.log('')
+
+console.log(chalk.red('Ban stats'))
+console.log(chalk.red('----------'))
+
+console.log('')
+
 console.log(chalk.blueBright('Top bans against this team:'));
 topBans.forEach((hero, idx) => console.log(chalk.yellow(idx + 1 + '.'), chalk.greenBright(heroIdMap[hero.id]), chalk.blueBright(hero.games)));
 
@@ -324,6 +360,7 @@ console.log('')
 console.log('')
 console.log(chalk.red('Top heroes for players'))
 console.log(chalk.red('----------------------'))
+console.log('');
 
 teamPlayers.forEach((id) => {
     const topHeroes = getPlayerTopHeroes(id);
