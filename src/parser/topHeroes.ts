@@ -168,9 +168,9 @@ export function printTopHeroes(): void {
     console.log(chalk.blueBright(''));
     console.log(chalk.cyan('Top Hero Stats'));
     console.log(chalk.blueBright('-------------'));
-    console.log(chalk.blueBright('Top Heroes:'), chalk.yellow(topTotal.slice(0, 3).map(([id]) => heroIdMap[id]).join(', ')));
-    console.log(chalk.blueBright('Top Picks:'), chalk.yellow(topPicks.slice(0, 3).map(([id]) => heroIdMap[id]).join(', ')));
-    console.log(chalk.blueBright('Top Bans:'), chalk.yellow(topBans.slice(0, 3).map(([id]) => heroIdMap[id]).join(', ')));
+    console.log(chalk.blueBright('Top Heroes:'), chalk.yellow(topTotal.slice(0, 3).map(([id, {picks, bans}]) => heroIdMap[id] + ' (' + (picks+bans) + ')').join(', ')));
+    console.log(chalk.blueBright('Top Picks:'), chalk.yellow(topPicks.slice(0, 3).map(([id, {picks}]) => heroIdMap[id] + ' (' + picks + ')').join(', ')));
+    console.log(chalk.blueBright('Top Bans:'), chalk.yellow(topBans.slice(0, 3).map(([id, {bans}]) => heroIdMap[id] + ' (' + bans + ')').join(', ')));
     console.log(chalk.blueBright('Top Win rate:'), chalk.yellow(topWinRate.slice(0, 3).map(([id, {won, picks}]) => `${heroIdMap[id]} ${chalk.grey(`(${won}/${picks} ${Math.round((won * 100) / picks)}%)`)}`).join(', ')));
     console.log(chalk.blueBright('Never picked:', chalk.yellow(notPicked.map((id) => heroIdMap[id]).join(', '))));
 }

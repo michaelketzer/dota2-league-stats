@@ -9,7 +9,6 @@ import { printTopStats, parseTopStats } from './parser/topStats';
 import { parseTotalStats, printTotalStats } from './parser/totalStats';
 import { parseTopHeroes, printTopHeroes } from './parser/topHeroes';
 import { LeagueMatch } from './@types/LeagueMatches';
-import { boolean } from 'yargs';
 
 const americasRegionIds = new Set([10, 14, 15, 1, 2]);
 const asiaRegionIds = new Set([17, 13, 5]);
