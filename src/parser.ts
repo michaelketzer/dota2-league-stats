@@ -12,6 +12,7 @@ import { LeagueMatch } from './@types/LeagueMatches';
 
 const americasRegionIds = new Set([10, 14, 15, 1, 2]);
 const asiaRegionIds = new Set([17, 13, 5]);
+const europeRegionIds = new Set([3, 8]);
 
 const argv = yargs
     .command('league', 'The league you want to collect the rosh state for', {
@@ -24,6 +25,12 @@ const argv = yargs
     .command('americas', 'Checks games only in region americas', {
         year: {
             description: 'Checks games only in region americas',
+            type: 'boolean',
+        }
+    })
+    .command('europe', 'Checks games only in region europe', {
+        year: {
+            description: 'Checks games only in region europe',
             type: 'boolean',
         }
     })
@@ -45,6 +52,9 @@ function filterMatchByRegions({regionId}: LeagueMatch): boolean {
     }
     if(argv.americas) {
         return americasRegionIds.has(regionId);
+    }
+    if(argv.europe) {
+        return europeRegionIds.has(regionId);
     }
 
     return true;
