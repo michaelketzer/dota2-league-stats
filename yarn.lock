@@ -2,13 +2,6 @@
 # yarn lockfile v1
 
 
-"@rauschma/stringio@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@rauschma/stringio/-/stringio-1.4.0.tgz#0b667bea726652a10a48dfc1dadc89e0ec51e269"
-  integrity sha512-3uor2f/MXZkmX5RJf8r+OC3WvZVzpSme0yyL0rQDPEnatE02qRcqwEwnsgpgriEck0S/n4vWtUd6tTtrJwk45Q==
-  dependencies:
-    "@types/node" "^10.0.3"
-
 "@types/chalk@^2.2.0":
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/@types/chalk/-/chalk-2.2.0.tgz#b7f6e446f4511029ee8e3f43075fb5b73fbaa0ba"
@@ -29,15 +22,10 @@
     "@types/node" "*"
     form-data "^3.0.0"
 
-"@types/node@*", "@types/node@^14.0.27", "@types/node@^14.6.2":
+"@types/node@*", "@types/node@^14.6.2":
   version "14.6.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-14.6.2.tgz#264b44c5a28dfa80198fc2f7b6d3c8a054b9491f"
   integrity sha512-onlIwbaeqvZyniGPfdw/TEhKIh79pz66L1q06WUQqJLnAb6wbjvOtepLYTGHTqzdXgBYIE3ZdmqHDGsRsbBz7A==
-
-"@types/node@^10.0.3":
-  version "10.17.28"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-10.17.28.tgz#0e36d718a29355ee51cec83b42d921299200f6d9"
-  integrity sha512-dzjES1Egb4c1a89C7lKwQh8pwjYmlOAG9dW1pBgxEk57tMrLnssOfEthz8kdkNaBd7lIqQx7APm5+mZ619IiCQ==
 
 "@types/yargs-parser@*":
   version "15.0.0"
@@ -201,18 +189,10 @@ mime-types@^2.1.12:
   dependencies:
     mime-db "1.44.0"
 
-node-fetch@^2.6.0:
-  version "2.6.0"
-  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.0.tgz#e633456386d4aa55863f676a7ab0daa8fdecb0fd"
-  integrity sha512-8dG4H5ujfvFiqDmVu9fQ5bOHUC15JMjMY/Zumv26oOvvVJjM67KF8koCWIabKQ1GJIa9r2mMZscBq/TbdOcmNA==
-
-node-ts@^5.0.8:
-  version "5.0.8"
-  resolved "https://registry.yarnpkg.com/node-ts/-/node-ts-5.0.8.tgz#a23015c551a5febcb2ebc53ad8948605fb61dfa0"
-  integrity sha512-DC9OTETk5Apv1sfZX4r8T/MWAR579PKxRmkX+EyRBtsqiV35tzHZwIdTGRVA5AQKGireYo7Ahhy/xBhUacnSJg==
-  dependencies:
-    "@rauschma/stringio" "^1.4.0"
-    "@types/node" "^14.0.27"
+node-fetch@^2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/node-fetch/-/node-fetch-2.6.1.tgz#045bd323631f76ed2e2b55573394416b639a0052"
+  integrity sha512-V4aYg89jEoVRxRb2fJdAg8FHvI7cEyYdVAh94HH0UIK8oJxUfkjlDQN9RbMx+bEjP7+ggMiFRprSti032Oipxw==
 
 p-limit@^2.2.0:
   version "2.3.0"
